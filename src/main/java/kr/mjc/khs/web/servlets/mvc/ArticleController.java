@@ -59,8 +59,22 @@ public class ArticleController {
     public void articleAdd(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         Article article = new Article();
+        article.setTitle(request.getParameter("title"));
+        article.setContent(request.getParameter("context"));
+        article.setName(request.getParameter("name"));
+        article.setUserId(request.getIntHeader("userId"));
+        article.setCdate(request.getParameter("cdate"));
+
+
+        try {
+            articleDao.addArticle(article);
+            articleAdd(request, response);
+        } catch (DataAccessException e) {
+            log.error(e.toString());
+        }
 
     }
+
     /*
     게시글 조회
      */
