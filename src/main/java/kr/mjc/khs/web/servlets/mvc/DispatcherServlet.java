@@ -45,7 +45,6 @@ public class DispatcherServlet extends HttpServlet {
             case "/user/signup" -> userController.signup(request, response);
             case "/user/updatePassword" ->
                     userController.updatePassword(request, response);
-            case "/article/articleForm" -> articleController.articleForm(request,response);
             case "/article/addArticle" -> articleController.articleAdd(request,response);
         }
     }
