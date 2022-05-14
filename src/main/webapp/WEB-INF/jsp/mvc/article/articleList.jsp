@@ -22,11 +22,8 @@
   <div>등록일시</div>
   <c:forEach var="article" items="${articleList}">
     <div>${article.articleId}</div>
-      <div><a href="./mvc/article/article?articleView=${article.title}">${article.title}</a>
-      </div>
-    <div><a href="./mvc/user/userInfo?userId=${user.username}">${article.name}</a>
-    <div><a href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a>
-    </div>
+      <div><a href="./mvc/article/article?articleView=${article.articleId}">${article.title}</a></div>
+    <div><a href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a></div>
     <div>${article.cdate}</div>
   </c:forEach>
 </div>
