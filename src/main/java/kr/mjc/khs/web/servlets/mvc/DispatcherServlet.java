@@ -31,6 +31,7 @@ public class DispatcherServlet extends HttpServlet {
             case "/user/userList" -> userController.userList(request, response);
             case "/user/signout" -> userController.signout(request, response);
             case "/user/userInfo" -> userController.userInfo(request, response);
+
             case "/article/articleList" -> articleController.articleList(request, response);
             case "/article/articleView" -> articleController.articleView(request, response);
             default -> mapDefault(request, response);
@@ -45,6 +46,8 @@ public class DispatcherServlet extends HttpServlet {
             case "/user/signup" -> userController.signup(request, response);
             case "/user/updatePassword" ->
                     userController.updatePassword(request, response);
+
+            case "/article/articleForm" -> articleController.articleForm(request, response);
             case "/article/addArticle" -> articleController.articleAdd(request,response);
         }
     }

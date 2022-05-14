@@ -48,16 +48,17 @@ public class ArticleController {
         article.setTitle(request.getParameter("title"));
         article.setContent(request.getParameter("context"));
 
+
         try {
             articleDao.addArticle(article);
-            articleList(request, response);
+            articleAdd(request, response);
         } catch (DataAccessException e) {
             log.error(e.toString());
         }
     }
 
     public void articleAdd(HttpServletRequest request, HttpServletResponse response)
-        throws IOException {
+        throws ServletException, IOException {
         Article article = new Article();
         article.setTitle(request.getParameter("title"));
         article.setContent(request.getParameter("context"));
