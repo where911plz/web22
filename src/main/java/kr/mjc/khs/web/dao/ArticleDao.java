@@ -73,7 +73,7 @@ public class ArticleDao {
     }
 
     /**
-     * 게시글 등록
+     * 게시글 등록s
      */
     public void addArticle(Article article) {
         namedParameterJdbcTemplate.update(ADD_ARTICLE,
