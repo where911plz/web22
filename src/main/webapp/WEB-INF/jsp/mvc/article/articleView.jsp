@@ -15,15 +15,11 @@
 <body>
 <%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
 <h3>게시글</h3>
-<div>게시물번호</div>
-<div>${article.articleId}</div>
-<div>제목</div>
-<div>${article.title}</div>
-<div>내용</div>
-<div>${article.context}</div>
-<div>이름</div>
-<div>${article.name}</div>
-<div>작성일</div>
-<div>${article.cdate}</div>
+<p><div>${article.title}</div></p>
+<div>
+    <a href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a> | ${article.cdate}
+</div>
+
+<p><div>${article.content}</div></p>
 </body>
 </html>

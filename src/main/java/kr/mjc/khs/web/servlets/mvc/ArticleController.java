@@ -40,7 +40,7 @@ public class ArticleController {
                 .forward(request, response);
     }
     /*
-    글쓰기
+    글쓰기 화면
      */
     public void articleForm(HttpServletRequest request, HttpServletResponse response)
             throws   ServletException, IOException {
@@ -50,11 +50,16 @@ public class ArticleController {
 
         try {
             articleDao.addArticle(article);
-            articleForm(request, response);
-        } catch (DataAccessException e)  {
+            articleList(request, response);
+        } catch (DataAccessException e) {
             log.error(e.toString());
-            response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
         }
+    }
+
+    public void articleAdd(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        Article article = new Article();
+
     }
     /*
     게시글 조회
