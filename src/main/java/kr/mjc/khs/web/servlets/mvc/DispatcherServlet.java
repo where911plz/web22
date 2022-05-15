@@ -49,6 +49,7 @@ public class DispatcherServlet extends HttpServlet {
 
             case "/article/articleForm" -> articleController.articleForm(request, response);
             case "/article/addArticle" -> articleController.articleAdd(request,response);
+            case "/article/updateArticle" -> articleController.articleUpdate(request, response);
         }
     }
     private void mapDefault(HttpServletRequest request, HttpServletResponse response)

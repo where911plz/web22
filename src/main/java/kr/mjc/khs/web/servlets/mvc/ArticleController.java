@@ -2,8 +2,9 @@ package kr.mjc.khs.web.servlets.mvc;
 
 import kr.mjc.khs.web.dao.Article;
 import kr.mjc.khs.web.dao.ArticleDao;
+import kr.mjc.khs.web.dao.User;
+import kr.mjc.khs.web.dao.UserDao;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
@@ -13,17 +14,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 @Controller
 @Slf4j
 public class ArticleController {
 
     private final ArticleDao articleDao;
-
-    public ArticleController(ArticleDao articleDao) {
+    private final UserDao userDao;
+    public ArticleController(ArticleDao articleDao, UserDao userDao) {
         this.articleDao = articleDao;
+        this.userDao = userDao;
     }
 
     /*
@@ -39,15 +39,12 @@ public class ArticleController {
         request.getRequestDispatcher("/WEB-INF/jsp/mvc/article/articleList.jsp")
                 .forward(request, response);
     }
-    /*
-    글쓰기 화면
-     */
+
     public void articleForm(HttpServletRequest request, HttpServletResponse response)
             throws   ServletException, IOException {
         Article article = new Article();
         article.setTitle(request.getParameter("title"));
         article.setContent(request.getParameter("context"));
-
 
         try {
             articleDao.addArticle(article);
@@ -56,23 +53,26 @@ public class ArticleController {
             log.error(e.toString());
         }
     }
-
+    /*
+    게시글 추가
+     */
     public void articleAdd(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+        throws  IOException {
+        HttpSession session = request.getSession();
+        User me = (User) session.getAttribute("ME");
         Article article = new Article();
         article.setTitle(request.getParameter("title"));
-        article.setContent(request.getParameter("context"));
-        article.setName(request.getParameter("name"));
-        article.setUserId(request.getIntHeader("userId"));
+        article.setContent(request.getParameter("content"));
+        article.setName(me.getName());
+        article.setUserId(me.getUserId());
 
         try {
             articleDao.addArticle(article);
-            articleAdd(request, response);
+            response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
         } catch (DataAccessException e) {
             log.error(e.toString());
             response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
         }
-
     }
 
     /*
@@ -88,4 +88,22 @@ public class ArticleController {
                 .forward(request, response);
 
     }
-}
+    /*
+    게시글 수정
+     */
+    public void articleUpdate(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+
+        int updatedRows =
+        if (updatedRows >= 1)
+            // 업데이트 성공
+            response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
+        else
+            // 업데이트 실패
+            response.sendRedirect(
+                    request.getContextPath() + "/mvc/article/articleEdit");
+        }
+
+    }

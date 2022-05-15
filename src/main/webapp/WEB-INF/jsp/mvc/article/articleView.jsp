@@ -15,6 +15,7 @@
 <body>
 <%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
 <h3>게시글</h3>
+<p><a href="./mvc/article/articleEdit">수정</a></p>
 <p><div>${article.title}</div></p>
 <div>
     <a href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a> | ${article.cdate}
