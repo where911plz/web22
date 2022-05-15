@@ -68,7 +68,7 @@ public class ArticleController {
 
         try {
             articleDao.addArticle(article);
-            response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
+            response.sendRedirect(request.getContextPath() + "/mvc/article/articleList");
         } catch (DataAccessException e) {
             log.error(e.toString());
             response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
@@ -94,16 +94,22 @@ public class ArticleController {
     public void articleUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        User me = (User) session.getAttribute("ME");
+        Article article = new Article();
 
+        article.setTitle(request.getParameter("title"));
+        article.setContent(request.getParameter("content"));
+        article.setArticleId(article.getArticleId());
+        article.setUserId(me.getUserId());
 
-        int updatedRows =
-        if (updatedRows >= 1)
-            // 업데이트 성공
+        try {
+            articleDao.updateArticle(article);
+            response.sendRedirect(request.getContextPath() + "/mvc/article/articleList");
+        } catch (DataAccessException e) {
+            log.error(e.toString());
             response.sendRedirect(request.getContextPath() + "/mvc/article/articleForm");
-        else
-            // 업데이트 실패
-            response.sendRedirect(
-                    request.getContextPath() + "/mvc/article/articleEdit");
         }
 
+
+    }
     }
