@@ -11,7 +11,9 @@ import java.io.IOException;
 
 @WebServlet("/mvc/*")
 public class DispatcherServlet extends HttpServlet {
+
     private UserController userController;
+
     private ArticleController articleController;
 
     @Override
@@ -25,35 +27,47 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         switch (pathInfo) {
             case "/user/userList" -> userController.userList(request, response);
             case "/user/signout" -> userController.signout(request, response);
             case "/user/userInfo" -> userController.userInfo(request, response);
-
-            case "/article/articleList" -> articleController.articleList(request, response);
-            case "/article/articleView" -> articleController.articleView(request, response);
+            case "/article/articleList" ->
+                    articleController.articleList(request, response);
+            case "/article/articleView" ->
+                    articleController.articleView(request, response);
+            case "/article/articleEdit" ->
+                    articleController.articleEdit(request, response);
+            case "/article/deleteArticle" ->
+                    articleController.deleteArticle(request, response);
+            case "/article/articleForm" ->
+                    articleController.articleForm(request, response);
             default -> mapDefault(request, response);
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request,
+                          HttpServletResponse response) throws IOException, ServletException {
         String pathInfo = request.getPathInfo();
         switch (pathInfo) {
             case "/user/signin" -> userController.signin(request, response);
             case "/user/signup" -> userController.signup(request, response);
             case "/user/updatePassword" ->
                     userController.updatePassword(request, response);
-
-            case "/article/articleForm" -> articleController.articleForm(request, response);
-            case "/article/addArticle" -> articleController.articleAdd(request,response);
-            case "/article/updatearticle" -> articleController.articleUpdate(request, response);
+            case "/article/addArticle" ->
+                    articleController.addArticle(request, response);
+            case "/article/updateArticle" ->
+                    articleController.updateArticle(request, response);
         }
     }
-    private void mapDefault(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+
+    /**
+     * 디폴트 매핑
+     */
+    private void mapDefault(HttpServletRequest request,
+                            HttpServletResponse response) throws ServletException, IOException {
         String pathInfo = request.getPathInfo();
         request.getRequestDispatcher("/WEB-INF/jsp/mvc" + pathInfo + ".jsp")
                 .forward(request, response);

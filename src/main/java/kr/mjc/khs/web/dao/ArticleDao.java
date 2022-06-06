@@ -7,8 +7,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -21,21 +19,25 @@ import java.util.List;
 @Slf4j
 public class ArticleDao {
 
-    String LIST_ARTICLES = """
+    private static final String LIST_ARTICLES = """
       select articleId, title, userId, name, cdate, udate from article
       order by articleId desc limit ?,?""";
 
-    String GET_ARTICLE = """
+    private static final String COUNT_ARTICLES =
+            "select count(articleId) from article";
+
+    private static final String GET_ARTICLE = """
       select articleId, title, content, userId, name, cdate, udate from article
       where articleId=?""";
 
-    String ADD_ARTICLE =
+    private static final String ADD_ARTICLE =
             "insert article(title, content, userId, name) values (:title, :content, :userId, :name)";
 
-    String UPDATE_ARTICLE =
+    private static final String UPDATE_ARTICLE =
             "update article set title=:title, content=:content where articleId=:articleId and userId=:userId";
 
-    String DELETE_ARTICLE = "delete from article where articleId=? and userId=?";
+    private static final String DELETE_ARTICLE =
+            "delete from article where articleId=? and userId=?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -65,6 +67,13 @@ public class ArticleDao {
     }
 
     /**
+     * 전체 게시글 갯수
+     */
+    public int countArticles() {
+        return jdbcTemplate.queryForObject(COUNT_ARTICLES, Integer.class);
+    }
+
+    /**
      * 게시글 한 건 조회
      */
     public Article getArticle(int articleId) {
@@ -73,7 +82,7 @@ public class ArticleDao {
     }
 
     /**
-     * 게시글 등록s
+     * 게시글 등록
      */
     public void addArticle(Article article) {
         namedParameterJdbcTemplate.update(ADD_ARTICLE,

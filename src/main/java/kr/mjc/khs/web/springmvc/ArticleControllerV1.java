@@ -1,4 +1,4 @@
-package kr.mjc.khs.web.servlets.mvc;
+package kr.mjc.khs.web.springmvc;
 
 import kr.mjc.khs.web.dao.Article;
 import kr.mjc.khs.web.dao.ArticleDao;
@@ -6,6 +6,8 @@ import kr.mjc.khs.web.dao.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,22 +16,21 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
-
-@Controller
+//@Controller
 @Slf4j
-public class ArticleController {
-
+public class ArticleControllerV1 {
     public static final String CURRENT_ARTICLE_LIST = "CURRENT_ARTICLE_LIST";
 
     private final ArticleDao articleDao;
 
-    public ArticleController(ArticleDao articleDao) {
+    public ArticleControllerV1(ArticleDao articleDao) {
         this.articleDao = articleDao;
     }
 
     /**
      * 게시글 목록화면
      */
+    @GetMapping("/article/articleList")
     public void articleList(HttpServletRequest request,
                             HttpServletResponse response) throws ServletException, IOException {
         int count = NumberUtils.toInt(request.getParameter("count"), 25);
@@ -46,26 +47,28 @@ public class ArticleController {
         request.setAttribute("totalCount", totalCount);
         request.setAttribute("totalPage",
                 (int) Math.ceil((double) totalCount / count));
-        request.getRequestDispatcher("/WEB-INF/jsp/mvc/article/articleList.jsp")
+        request.getRequestDispatcher("/WEB-INF/jsp/article/articleList.jsp")
                 .forward(request, response);
     }
 
     /**
      * 게시글 조회화면
      */
+    @GetMapping("/article/articleView")
     public void articleView(HttpServletRequest request,
                             HttpServletResponse response) throws ServletException, IOException {
         int articleId = Integer.parseInt(request.getParameter("articleId"));
 
         Article article = articleDao.getArticle(articleId);
         request.setAttribute("article", article);
-        request.getRequestDispatcher("/WEB-INF/jsp/mvc/article/articleView.jsp")
+        request.getRequestDispatcher("/WEB-INF/jsp/article/articleView.jsp")
                 .forward(request, response);
     }
 
     /**
      * 글쓰기 화면
      */
+    @GetMapping("/article/articleFrom")
     public void articleForm(HttpServletRequest request,
                             HttpServletResponse response) throws ServletException, IOException {
         if (request.getSession().getAttribute("ME") == null) {
@@ -77,7 +80,7 @@ public class ArticleController {
                             URLEncoder.encode(redirectUrl, Charset.defaultCharset()));
         } else {
             // 로그인 한 경우 글쓰기 화면으로
-            request.getRequestDispatcher("/WEB-INF/jsp/mvc/article/articleForm.jsp")
+            request.getRequestDispatcher("/WEB-INF/jsp/article/articleForm.jsp")
                     .forward(request, response);
         }
     }
@@ -85,19 +88,21 @@ public class ArticleController {
     /**
      * 게시글 수정화면
      */
+    @GetMapping("/article/articleEdit")
     public void articleEdit(HttpServletRequest request,
                             HttpServletResponse response) throws ServletException, IOException {
         int articleId = Integer.parseInt(request.getParameter("articleId"));
 
         Article article = articleDao.getArticle(articleId);
         request.setAttribute("article", article);
-        request.getRequestDispatcher("/WEB-INF/jsp/mvc/article/articleEdit.jsp")
+        request.getRequestDispatcher("/WEB-INF/jsp/article/articleEdit.jsp")
                 .forward(request, response);
     }
 
     /**
      * 게시글 추가. 추가 후 목록 1page로 redirect
      */
+    @PostMapping("/article/addArticle")
     public void addArticle(HttpServletRequest request,
                            HttpServletResponse response) throws IOException {
         String title = request.getParameter("title");
@@ -112,12 +117,13 @@ public class ArticleController {
 
         articleDao.addArticle(article);
         response.sendRedirect(
-                request.getContextPath() + "/mvc/article/articleList?count=25&page=1");
+                request.getContextPath() + "/app/article/articleList?count=25&page=1");
     }
 
     /**
      * 게시글 수정. 수정 후 조회화면으로 redirect
      */
+    @PostMapping("/article/updateArticle")
     public void updateArticle(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
         int articleId = Integer.parseInt(request.getParameter("articleId"));
@@ -133,13 +139,14 @@ public class ArticleController {
 
         articleDao.updateArticle(article);
         response.sendRedirect(
-                request.getContextPath() + "/mvc/article/articleView?articleId=" +
+                request.getContextPath() + "/app/article/articleView?articleId=" +
                         articleId);
     }
 
     /**
      * 게시글 삭제. 삭제 후 현재 목록으로 redirect
      */
+    @GetMapping("/article/deleteArticle")
     public void deleteArticle(HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
         int articleId = Integer.parseInt(request.getParameter("articleId"));

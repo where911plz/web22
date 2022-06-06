@@ -14,9 +14,9 @@
     </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <h3>글쓰기</h3>
-<form action="./mvc/article/addArticle" method="post">
+<form action="./app/article/addArticle" method="post">
     <p><input type="text" name="title" placeholder="제목" required autofocus/>
     </p>
     <p><textarea name="content" required></textarea></p>

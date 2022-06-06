@@ -24,6 +24,8 @@ public class UserDao {
     private static final String LIST_USERS =
             "select userId, email, name from user order by userId desc limit ?,?";
 
+    private static final String COUNT_USERS = "select count(userId) from user";
+
     private static final String GET_USER =
             "select userId, email, name from user where userId=?";
 
@@ -68,6 +70,13 @@ public class UserDao {
     public List<User> listUsers(int count, int page) {
         int offset = (page - 1) * count;  // 목록의 시작 시점
         return jdbcTemplate.query(LIST_USERS, userRowMapper, offset, count);
+    }
+
+    /**
+     * 전체 회원 수
+     */
+    public int countUsers() {
+        return jdbcTemplate.queryForObject(COUNT_USERS, Integer.class);
     }
 
     /**
