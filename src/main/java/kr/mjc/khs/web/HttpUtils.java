@@ -3,8 +3,8 @@ package kr.mjc.khs.web;
 import javax.servlet.http.HttpServletRequest;
 
 public class HttpUtils {
-    /*
-    queryString 을 포함한 requsetURL
+    /**
+     * queryString을 포함한 requestURL
      */
     public static String getRequestURLWithQueryString(
             HttpServletRequest request) {

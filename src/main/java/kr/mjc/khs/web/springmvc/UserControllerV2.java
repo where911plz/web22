@@ -69,7 +69,7 @@ public class UserControllerV2 {
             // 회원가입 실패하면 다시 회원가입 화면으로
             log.error(e.toString());
             attributes.addFlashAttribute("message", messages.getMessage("signup.failure", null ,
-            Locale.getDefault()));
+                    Locale.getDefault()));
             return "redirect:/app/user/signupForm";
         }
     }
@@ -110,7 +110,7 @@ public class UserControllerV2 {
             // 업데이트 성공하면 내정보 화면으로
             return "redirect:/app/user/myInfo";
         else
-        // 업데이트 실패하면 다시 비밀번호변경 화면으로
+            // 업데이트 실패하면 다시 비밀번호변경 화면으로
             attributes.addFlashAttribute("message", messages.getMessage("password.failure", null ,
                     Locale.getDefault()));
         return "redirect=/app/user/passwordEdit";
