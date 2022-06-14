@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+    let page = 1;
+
+    window.onload = function () {
+      fetchList();
+      document.getElementById("btnNext").addEventListener('click', fetchList);
+    };
+
+    // 목록 가져와서 출력
+    function fetchList() {
+      fetch("/demo/app/json/user/listUsers?count=10&page=" + page++)
+              .then(response => response.json())
+              .then(displayList);
+    }
+
+    // 목록 출력
+    function displayList(list) {
+      list.forEach(user => {
+        document.getElementById("list").innerHTML +=
+                `<div>${user.userId}</div><div>${user.email}</div><div>${user.name}</div>`
+      });
+    }
+  </script>
+  <style>
+    #list {display: grid; grid-template-columns: auto auto auto;}
+  </style>
+</head>
+<body>
+<p>
+  <button id="btnNext">다음</button>
+</p>
+<div id="list">
+  <div>번호</div>
+  <div>이메일</div>
+  <div>이름</div>
+</div>
+</body>
+</html>

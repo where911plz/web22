@@ -12,7 +12,7 @@
   </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <h3>회원정보</h3>
 <div class="grid">
   <div>회원번호</div>

@@ -10,9 +10,9 @@
   </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
 <h3>게시판</h3>
-<p><a href="./mvc/article/articleForm">글쓰기</a></p>
+<p><a href="./app/article/articleForm">글쓰기</a></p>
 <form name="form1">
   <span>전체 ${totalCount}개, ${totalPage}페이지</span>
   <button id="btnPrev" type="submit"
@@ -35,10 +35,10 @@
   <c:forEach var="article" items="${articleList}">
     <div>${article.articleId}</div>
     <div><a
-            href="./mvc/article/articleView?articleId=${article.articleId}">${article.title}</a>
+            href="./app/article/articleView?articleId=${article.articleId}">${e:forHtml(article.title)}</a>
     </div>
     <div><a
-            href="./mvc/user/userInfo?userId=${article.userId}">${article.name}</a>
+            href="./app/user/userInfo?userId=${article.userId}">${article.name}</a>
     </div>
     <div>${article.cdate}</div>
   </c:forEach>

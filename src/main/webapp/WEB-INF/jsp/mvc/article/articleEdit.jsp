@@ -15,15 +15,17 @@
     </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/jsp/mvc/top.jsp" %>
-<h3>글쓰기</h3>
-<form action="./mvc/article/updateArticle" method="post">
-    <p><input type="text" name="title" value="${article.title}" placeholder="제목"
-              required autofocus/>
+<%@ include file="/WEB-INF/jsp/top.jsp" %>
+<h3>글수정</h3>
+<form action="./app/article/updateArticle" method="post">
+    <p><input type="text" name="title"
+              value="${e:forHtml(article.title)}" placeholder="제목" required
+              autofocus/>
     </p>
-    <p><textarea name="content" required>${article.content}</textarea></p>
+    <p><textarea name="content"
+                 required>${e:forHtml(article.content)}</textarea></p>
     <p>
-        <button type="submit">등록</button>
+        <button type="submit">저장</button>
     </p>
     <input type="hidden" name="articleId" value="${article.articleId}"/>
 </form>

@@ -44,7 +44,7 @@ public class TomcatServerCustomizer
                             new HashSet<>()));
 
             // add welcome file list
-           // context.addWelcomeFile("/index.html");
+            // context.addWelcomeFile("/index.html");
             context.addWelcomeFile("/index.jsp");
         });
 
